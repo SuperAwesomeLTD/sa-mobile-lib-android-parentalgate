@@ -29,28 +29,20 @@ public class SAParentalGate {
     private static final String SA_ERROR_ALERTVIEW_CANCELBUTTON_TITLE = "Ok";
 
     // the alert dialog
-    private AlertDialog dialog = null;
+    private static AlertDialog dialog = null;
 
     // the pg listener
-    private SAParentalGate.Interface listener = null;
-
-    // private vars
-    private Context c = null;
-
-    public SAParentalGate (Context context) {
-        this.c = context;
-        listener = new SAParentalGate.Interface() {
-            @Override public void parentalGateOpen () {}
-            @Override public void parentalGateSuccess() {}
-            @Override public void parentalGateFailure() {}
-            @Override public void parentalGateCancel() {}
-        };
-    }
+    private static SAParentalGate.Interface listener = new SAParentalGate.Interface() {
+        @Override public void parentalGateOpen () {}
+        @Override public void parentalGateSuccess() {}
+        @Override public void parentalGateFailure() {}
+        @Override public void parentalGateCancel() {}
+    };
 
     /**
      * Method that shows the parental gate popup and fires the necessary events
      */
-    public void show() {
+    public static void show(final Context c) {
 
         listener.parentalGateOpen();
 
@@ -75,7 +67,7 @@ public class SAParentalGate {
 
                 int userValue = -1;
 
-                // try parsing the result and check for mathematical corectness
+                // try parsing the result and check for mathematical correctness
                 try {
                     userValue = Integer.parseInt(input.getText().toString());
 
@@ -137,7 +129,7 @@ public class SAParentalGate {
     /**
      * Close method for the dialog
      */
-    public void close () {
+    public static void close () {
         if (dialog != null) {
             dialog.cancel();
         }
@@ -146,10 +138,10 @@ public class SAParentalGate {
     /**
      * Set the parental gate listener
      *
-     * @param listener the listener instance
+     * @param lis the listener instance
      */
-    public void setListener (SAParentalGate.Interface listener) {
-        this.listener = listener != null ? listener : this.listener;
+    public static void setListener (SAParentalGate.Interface lis) {
+        listener = lis != null ? lis : listener;
     }
 
     private static int randomNumberBetween(int min, int max) {
